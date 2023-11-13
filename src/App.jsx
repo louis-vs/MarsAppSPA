@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import InformationBox from './components/InformationBox'
+import InformationBox from './components/InformationBox.jsx'
+import Counter from './components/Counter.jsx'
 import nasaLogo from '/NASA_logo.png'
 
 const nasaHeading = "NASA"
@@ -13,21 +14,12 @@ NASA has since led most American space exploration, including Project Mercury, P
 "
 
 function App() {
-  const countKey = "count"
-  const [count, setCount] = useState(Number(localStorage.getItem(countKey)))
-
-  useEffect(() => {
-    localStorage.setItem(countKey, count)
-  }, [count])
-
   return (
     <>
       <h1>Vite + React</h1>
       <div className="card">
         <InformationBox heading={nasaHeading} image={nasaLogo} paragraphs={[nasaBio1, nasaBio2]} />
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <Counter/>
       </div>
     </>
   )
