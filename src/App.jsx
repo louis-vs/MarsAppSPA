@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import InformationBox from './components/InformationBox'
 import nasaLogo from '/NASA_logo.png'
@@ -11,8 +11,14 @@ The National Aeronautics and Space Administration (NASA /ˈnæsə/) is an indepe
 const nasaBio2 = "\
 NASA has since led most American space exploration, including Project Mercury, Project Gemini, the 1968–1972 Apollo Moon landing missions, the Skylab space station, and the Space Shuttle. NASA currently supports the International Space Station and oversees the development of the Orion spacecraft and the Space Launch System for the crewed lunar Artemis program, the Commercial Crew spacecraft, and the planned Lunar Gateway space station. \
 "
+
 function App() {
-  const [count, setCount] = useState(0)
+  const countKey = "count"
+  const [count, setCount] = useState(Number(localStorage.getItem(countKey)))
+
+  useEffect(() => {
+    localStorage.setItem(countKey, count)
+  }, [count])
 
   return (
     <>
