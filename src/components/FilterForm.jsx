@@ -25,11 +25,14 @@ function FilterForm({ rovers, currentRover, setRover, currentCamera, setCamera }
         onChange={handleRoverSelection} 
         value={roverOptions.find((option) => option.value === currentRover.id)} 
       />
-      <Select 
-        options={cameraOptions} 
-        onChange={handleCameraSelection} 
-        value={currentCamera ? cameraOptions.find((option) => option.value === currentCamera.name) : '...'} 
-      />
+      {
+        currentRover.id &&
+          <Select 
+            options={cameraOptions} 
+            onChange={handleCameraSelection} 
+            value={currentCamera ? cameraOptions.find((option) => option.value === currentCamera.name) : '...'} 
+          />
+      }
     </>
   )
 }

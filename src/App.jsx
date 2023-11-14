@@ -4,6 +4,7 @@ import InformationBox from './components/InformationBox.jsx'
 import Counter from './components/Counter.jsx'
 import nasaLogo from '/NASA_logo.png'
 import FilterForm from './components/FilterForm.jsx'
+import PhotosList from './components/PhotosList.jsx'
 
 const nasaHeading = "NASA"
 
@@ -20,6 +21,7 @@ function App() {
   const [ rovers, setRovers ] = useState([])
   const [ currentRover, setCurrentRover ] = useState({})
   const [ currentCamera, setCamera ] = useState({})
+  const [ photos, setPhotos ] = useState([])
   const [ errorState, setErrorState ] = useState(undefined)
 
   useEffect(() => {
@@ -34,6 +36,22 @@ function App() {
     }
     fetchRovers().catch(console.error)
   }, [])
+
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      const response = await fetch(`${apiUrl}/rovers/${currentRover.name}/photos/${currentCamera.name}`)
+      if (!response.error) {
+        setPhotos(await response.json())
+        setErrorState(undefined)
+      } else {
+        setErrorState(undefined)
+      }
+    }
+
+    if (currentRover.name && currentCamera.name) {
+      fetchPhotos().catch(console.error)
+    }
+  }, [currentRover, currentCamera])
 
   const errorMessage = (
     <div className="error">
@@ -53,6 +71,9 @@ function App() {
           currentCamera={currentCamera}
           setCamera={setCamera}
         />
+      </div>
+      <div className="card">
+        <PhotosList photos={photos}/>
       </div>
       <div className="card">
         <InformationBox heading={nasaHeading} image={nasaLogo} paragraphs={[nasaBio1, nasaBio2]} />
