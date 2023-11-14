@@ -6,7 +6,7 @@ function InformationBox({ heading, image, paragraphs }) {
 
   return (
     <>
-      <h2>NASA Information</h2>
+      <h2>{heading}</h2>
       {paragraphItems}
       <img src={image} />
     </>
