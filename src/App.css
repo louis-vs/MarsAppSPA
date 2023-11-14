@@ -44,3 +44,9 @@
 img {
   max-width: 25%;
 }
+
+.error {
+  padding: 2em;
+  background-color: red;
+  color: white;
+}

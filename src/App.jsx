@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import InformationBox from './components/InformationBox.jsx'
 import Counter from './components/Counter.jsx'
-import RoverSelectForm from './components/RoverSelectForm.jsx'
 import nasaLogo from '/NASA_logo.png'
+import FilterForm from './components/FilterForm.jsx'
 
 const nasaHeading = "NASA"
 
@@ -19,20 +19,40 @@ const apiUrl = "http://localhost:8000"
 function App() {
   const [ rovers, setRovers ] = useState([])
   const [ currentRover, setCurrentRover ] = useState({})
+  const [ currentCamera, setCamera ] = useState({})
+  const [ errorState, setErrorState ] = useState(undefined)
 
   useEffect(() => {
     const fetchRovers = async () => {
       const response = await fetch(`${apiUrl}/rovers`)
-      setRovers(await response.json())
+      if (!response.error) {
+        setRovers(await response.json())
+        setErrorState(undefined)
+      } else {
+        setErrorState(await response.json())
+      }
     }
     fetchRovers().catch(console.error)
   }, [])
 
+  const errorMessage = (
+    <div className="error">
+      <p>{errorState && errorState.error}</p>
+    </div>
+  )
+
   return (
     <>
       <h1>Vite + React</h1>
+      { errorState && errorMessage }
       <div className="card">
-        <RoverSelectForm rovers={rovers} currentRover={currentRover} setRover={setCurrentRover} />
+        <FilterForm 
+          rovers={rovers} 
+          currentRover={currentRover} 
+          setRover={setCurrentRover}
+          currentCamera={currentCamera}
+          setCamera={setCamera}
+        />
       </div>
       <div className="card">
         <InformationBox heading={nasaHeading} image={nasaLogo} paragraphs={[nasaBio1, nasaBio2]} />
