@@ -14,11 +14,19 @@ const nasaBio2 = "\
 NASA has since led most American space exploration, including Project Mercury, Project Gemini, the 1968–1972 Apollo Moon landing missions, the Skylab space station, and the Space Shuttle. NASA currently supports the International Space Station and oversees the development of the Orion spacecraft and the Space Launch System for the crewed lunar Artemis program, the Commercial Crew spacecraft, and the planned Lunar Gateway space station. \
 "
 
-const testRovers = [{"id":5,"name":"Curiosity"},{"id":7,"name":"Spirit"}];
+const apiUrl = "http://localhost:8000"
 
 function App() {
-  const [ rovers, setRovers ] = useState(testRovers)
+  const [ rovers, setRovers ] = useState([])
   const [ currentRover, setCurrentRover ] = useState({})
+
+  useEffect(() => {
+    const fetchRovers = async () => {
+      const response = await fetch(`${apiUrl}/rovers`)
+      setRovers(await response.json())
+    }
+    fetchRovers().catch(console.error)
+  }, [])
 
   return (
     <>
